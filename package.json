@@ -1,5 +1,5 @@
 {
-  "name": "contact-keeper-api",
+  "name": "contact-keeper",
   "version": "1.0.0",
   "description": "ContactKeeper app for personal and professional contacts",
   "main": "server.js",
