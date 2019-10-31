@@ -1,9 +1,10 @@
-import React, { useState, useContext } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import ContactContext from '../../context/contact/ContactContext';
 
 const ContactForm = () => {
 
-    const { addContact } = useContext(ContactContext);
+    const contactContext = useContext(ContactContext);
+    const { addContact, clearCurrent, current, updateContact } = contactContext;
 
     const [contact, setContact] = useState({
         name: '',
@@ -14,26 +15,39 @@ const ContactForm = () => {
 
     const { name, email, phone, type } = contact;
 
+    useEffect(() => {
+        if (current !== null) {
+            setContact(current);
+        } else {
+            setContact({
+                name: '',
+                email: '',
+                phone: '',
+                type: 'personal'
+            });
+        }
+    }, [contactContext, current]);
+
     const onChange = e => setContact({ ...contact, [e.target.name]: e.target.value });
+    
+    const clearAll = () => clearCurrent();
 
     const onSubmit = e => {
 
         e.preventDefault();
-        addContact(contact);
-        setContact({
-            name: '',
-            email: '',
-            phone: '',
-            type: 'personal'
-        });
-        
+
+        if (current === null) {
+            addContact(contact);
+        } else {
+            updateContact(contact);
+        }
+        clearAll(); 
     }
 
-    console.log(contact)
 
     return (
         <form onSubmit={onSubmit}>
-            <h2 className='text-primary'>Add Contact</h2>
+            <h2 className='text-primary'>{current ? 'Edit Contact' : 'Add Contact'}</h2>
             <input type='text' placeholder='Name' name='name' value={name} onChange={onChange} />
             <input type='email' placeholder='Email' name='email' value={email} onChange={onChange} />
             <input type='text' placeholder='Phone' name='phone' value={phone} onChange={onChange} />
@@ -45,7 +59,10 @@ const ContactForm = () => {
             <label htmlFor='professional' style={{ margin: '0px 5px' }}>Professional</label>
 
             <div>
-                <input type='submit' value='Add Contact' className='btn btn-primary btn-block' />
+                <input type='submit' value={current ? 'Update Contact' : 'Add Contact'} className='btn btn-primary btn-block' />
+            </div>
+            <div>
+                {current && <button className='btn btn-ligh btn-block' onClick={clearAll}>Clear</button> }
             </div>
         </form>
     )
