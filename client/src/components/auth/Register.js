@@ -1,6 +1,9 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
+import AlertContext from '../../context/alert/AlertContext';
 
 const Register = () => {
+
+    const { setAlert } = useContext(AlertContext);
 
     const [user, setUser] = useState({
         name: '',
@@ -20,7 +23,13 @@ const Register = () => {
 
     const onSubmit = e => {
         e.preventDefault();
-        console.log('Register user')
+        if (name === '' || email === '' || password === '') {
+            setAlert('Please enter all fields', 'danger')
+        } else if (password !== password2) {
+            setAlert('Password do not match', 'danger')
+        } else {
+            console.log('Register Submit')
+        }
     }
 
     return (
@@ -36,7 +45,7 @@ const Register = () => {
                         name='name'
                         value={name}
                         onChange={onChange}
-                        required
+                        // required
                     />
                 </div>
                 <div className='form-group'>
@@ -46,7 +55,7 @@ const Register = () => {
                         name='email'
                         value={email}
                         onChange={onChange}
-                        required
+                        // required
                     />
                 </div>
                 <div className='form-group'>
@@ -56,7 +65,7 @@ const Register = () => {
                         name='password'
                         value={password}
                         onChange={onChange}
-                        required
+                        // required
                         minLength='6'
                     />
                 </div>
@@ -67,7 +76,7 @@ const Register = () => {
                         name='password2'
                         value={password2}
                         onChange={onChange}
-                        required
+                        // required
                         minLength='6'
                     />
                 </div>

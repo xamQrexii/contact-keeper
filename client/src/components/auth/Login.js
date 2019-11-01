@@ -1,6 +1,9 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
+import AlertContext from '../../context/alert/AlertContext';
 
 const Login = () => {
+
+    const { setAlert } = useContext(AlertContext);
 
     const [user, setUser] = useState({
         email: '',
@@ -18,7 +21,11 @@ const Login = () => {
 
     const onSubmit = e => {
         e.preventDefault();
-        console.log('Login user')
+        if (email === '' || password === '') {
+            setAlert('Please provide all fields', 'danger')
+        } else {
+            console.log('Login user')
+        }
     }
     return (
         <div className='form-container'>
@@ -33,7 +40,7 @@ const Login = () => {
                         name='email'
                         value={email}
                         onChange={onChange}
-                        required
+                        // required
                     />
                 </div>
                 <div className='form-group'>
@@ -43,7 +50,7 @@ const Login = () => {
                         name='password'
                         value={password}
                         onChange={onChange}
-                        required
+                        // required
                         minLength='6'
                     />
                 </div>
