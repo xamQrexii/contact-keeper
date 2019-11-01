@@ -22,7 +22,7 @@ const Login = () => {
     const onSubmit = e => {
         e.preventDefault();
         if (email === '' || password === '') {
-            setAlert('Please provide all fields', 'danger')
+            setAlert('Please enter all fields', 'danger')
         } else {
             console.log('Login user')
         }
